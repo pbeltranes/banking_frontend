@@ -12,6 +12,11 @@ npm run i
 npm run dev
 ```
 
+### Correr test
+```bash
+npm run test
+```
+
 ## SUPUESTOS
 
 > La aplicacion ejecuta montos indistinto del tipo de divisa, no se realiza conversiones solo transformacion al tipo de divisa.
