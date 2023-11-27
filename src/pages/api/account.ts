@@ -5,7 +5,6 @@ import axios, {
   AxiosError,
   AxiosResponse,
 } from "axios";
-import Cookies from "js-cookie";
 import { BACKEND_BASEPATH } from "../../lib/constants";
 
 export default async function handler(
@@ -20,7 +19,6 @@ export default async function handler(
       data: { initial_balance, account_id },
     } = await service.create(data);
 
-    Cookies.set("account_id", account_id, { expires: 3600 });
     res.setHeader("Set-Cookie", [
       `account_id=${account_id}; Path=/;  HttpOnly; Max-Age=3600`,
       `balance=${Number(initial_balance)}; Path=/;   HttpOnly; Max-Age=3600`,

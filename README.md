@@ -1,17 +1,27 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+#README
 
-## Getting Started
+## Comandos
 
-First, run the development server:
-
+### Instalar dependencias
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run i
 ```
 
-La aplicacion ejecuta montos indistinto del tipo de divisa, no se realiza conversiones solo transformacion al tipo de divisa.
+### Correr la aplicación
+```bash
+npm run dev
+```
+
+## SUPUESTOS
+
+> La aplicacion ejecuta montos indistinto del tipo de divisa, no se realiza conversiones solo transformacion al tipo de divisa.
+> Se guarda en coockies el account_id, si no existe account_id en cookies redireccionara a creación de cuenta.
+
+### Validaciones creacion cuenta
+- El nombre debe contener 3 a 30 caracteres alfabeticos.
+- El número de cuenta debe ser un digito de 10 a 15 digitos.
+- El balance inicial puede ser una cifra de 20 digitos.
+
+### Validaciones ingreso transacción
+- Se valida que el usuario tenga dinero para poder realizar un egreso de dinero.
+- Se puede transferir hasta 100.0000.000.0 en cualquier divisa.

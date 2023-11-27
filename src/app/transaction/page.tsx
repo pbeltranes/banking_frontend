@@ -73,10 +73,12 @@ export default function Home() {
     if (newBalance < 0) {
       setErrorMessage("You don't have enough money");
       setLoading(false);
+      return;
     }
     if (newBalance > MAX_AMOUNT) {
       setErrorMessage("Your balance is too high, please contact executive");
       setLoading(false);
+      return;
     }
 
     const response = await fetch("/api/transaction", {
