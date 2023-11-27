@@ -1,10 +1,9 @@
-#README
 
 ## Comandos
 
 ### Instalar dependencias
 ```bash
-npm run i
+npm i
 ```
 
 ### Correr la aplicación
