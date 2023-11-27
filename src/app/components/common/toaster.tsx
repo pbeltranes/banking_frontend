@@ -1,26 +1,8 @@
-import React, { Dispatch } from "react";
+import { COLORS, Props, ToastColor } from "../../../lib/types";
+import React from "react";
 
-interface Props {
-  type: ToastType;
-  description: string;
-  setMessage: Dispatch<React.SetStateAction<string | null>>;
-}
-
-type ToastType = "success" | "error" | "warning" | "info";
-type ToastColor = "green" | "red" | "yellow" | "blue";
-
-const colors = {
-  success: "green",
-  error: "red",
-  warning: "yellow",
-  info: "blue",
-};
-const Toast: React.FC<Props> = ({
-  type = "info",
-  description = "",
-  setMessage,
-}) => {
-  const color = colors[type] as ToastColor;
+const Toast: React.FC<Props> = ({ type, description = "", setMessage }) => {
+  const color = COLORS[type] as ToastColor;
   const CloseModal = () => {
     setMessage(null);
   };

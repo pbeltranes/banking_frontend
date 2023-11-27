@@ -5,6 +5,7 @@ import axios, {
   AxiosError,
   AxiosResponse,
 } from "axios";
+import Cookies from "js-cookie";
 import { BACKEND_BASEPATH } from "../../lib/constants";
 
 export default async function handler(
@@ -19,11 +20,12 @@ export default async function handler(
       data: { initial_balance, account_id },
     } = await service.create(data);
 
-    res.setHeader("Set-Cookie", `account_id=${account_id}; Path=/;  HttpOnly`);
-    res.setHeader(
-      "Set-Cookie",
-      `balance=${Number(initial_balance)}; Path=/;   HttpOnly`
-    );
+    Cookies.set("account_id", account_id, { expires: 3600 });
+    res.setHeader("Set-Cookie", [
+      `account_id=${account_id}; Path=/;  HttpOnly; Max-Age=3600`,
+      `balance=${Number(initial_balance)}; Path=/;   HttpOnly; Max-Age=3600`,
+    ]);
+
     res.status(200).json({ account_id, initial_balance });
   } catch (error) {
     console.log(error);
@@ -60,7 +62,7 @@ class Service {
   };
 
   onResponse = (response: AxiosResponse): AxiosResponse => {
-    console.info(`[response] [${response.data}]`);
+    console.info(`[response] [${JSON.stringify(response.data)}]`);
     return response;
   };
 

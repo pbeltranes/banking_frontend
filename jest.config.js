@@ -12,7 +12,7 @@ module.exports = {
     '!<rootDir>/coverage/**',
     '!<rootDir>/jest.setup.js',
     '!<rootDir>/tailwind.config.ts',
-
+    '!<rootDir>/src/pages/api/*',
   ],
   moduleNameMapper: {
     // Handle CSS imports (with CSS modules)
@@ -22,6 +22,7 @@ module.exports = {
     // Handle CSS imports (without CSS modules)
     '^.+\\.(css|sass|scss)$': '<rootDir>/__mocks__/styleMock.js',
 
+
     // Handle image imports
     // https://jestjs.io/docs/webpack#handling-static-assets
     '^.+\\.(png|jpg|jpeg|gif|webp|avif|ico|bmp|svg)$/i': `<rootDir>/__mocks__/fileMock.js`,
@@ -29,6 +30,7 @@ module.exports = {
     // Handle module aliases
     '^@/components/(.*)$': '<rootDir>/components/$1',
   },
+  
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   testPathIgnorePatterns: ['<rootDir>/node_modules/', '<rootDir>/.next/'],

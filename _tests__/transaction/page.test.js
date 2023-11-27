@@ -1,10 +1,22 @@
 import { render, screen } from '@testing-library/react'
 import Transaction from '../../src/app/transaction/page'
 import '@testing-library/jest-dom'
-import renderer from 'react-test-renderer';
 import { describe } from 'node:test'
 
-describe('Home', () => {
+
+
+jest.mock('next/navigation');
+
+
+describe('Transaction', () => {
+    jest.mock('next/navigation', () => ({
+        useRouter: () => ({
+            pathname: '/mocked-path',
+            query: { mock: 'query' },
+            asPath: '/mocked-path?mock=query',
+            push: jest.fn(),
+        }),
+    }));
     it('Rendering page', () => {
         render(<Transaction />)
 

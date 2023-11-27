@@ -1,37 +1,43 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Toast from "../components/common/toaster";
 import Amount from "../components/transaction/amount";
-import { useCookies } from "next-client-cookies";
-import Cookie from 
 import { INCOME, MAX_AMOUNT, OUTCOME } from "../../lib/constants";
 import { formatter, isNumeric } from "../../lib/utils";
 import { Currency } from "../../lib/types";
 
 export default function Home() {
-  const cookies = useCookies();
-  const result = Cookies.get('account_id')
-  console.log(cookies.get("account_id"));
-  if (!cookies.get("account_id")) {
-    console.log("redirect")
-    const router = useRouter();
-    router.push("/");
-  }
   const [state, setState] = useState({
     type: "",
     amount: 10000.0,
-    account_id: cookies.get("account_id"),
+    account_id: 0,
   });
-  const [balance, setBalance] = useState(1000000.0);
+  const router = useRouter();
+  const [balance, setBalance] = useState(10000.0);
   const [currency, setCurrency] = useState<"MXN" | "CLP">("MXN");
   const [succesMessage, setSuccessMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch("/api/get-cookies", {
+        method: "GET",
+      });
+      const { account_id, balance } = await response.json();
+      if (!account_id) router.push("/");
+      setState({ ...state, account_id });
+      setBalance(Number(balance));
+    };
+
+    fetchData();
+  }, []);
+
+
   const onChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setCurrency(event.target.value as Currency);
   };
-
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const radioChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, type: event.target.id });
@@ -75,10 +81,8 @@ export default function Home() {
 
     const response = await fetch("/api/transaction", {
       method: "POST",
-      body: JSON.stringify({ balance: newBalance, state, account_id }),
+      body: JSON.stringify({ balance: newBalance, ...state, account_id }),
     });
-    console.log(state);
-    console.log(response);
     if (response.status === 200) {
       setBalance(newBalance);
       setState({ ...state, amount: 0 });

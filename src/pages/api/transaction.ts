@@ -14,10 +14,10 @@ export default async function handler(
   try {
     const data = req.body;
     const service = new Service();
-
-    const result = await service.create(data);
-    console.log(result.data);
-
+    await service.create(data);
+    res.setHeader("Set-Cookie", [
+      `balance=${JSON.parse(data).balance}; Path=/;   HttpOnly; Max-Age=3600`,
+    ]);
     res.status(200).json({});
   } catch (error) {
     console.log(error);
@@ -54,7 +54,7 @@ class Service {
   };
 
   onResponse = (response: AxiosResponse): AxiosResponse => {
-    console.info(`[response] [${response.data}]`);
+    console.info(`[response] [${JSON.stringify(response.data)}]`);
     return response;
   };
 
